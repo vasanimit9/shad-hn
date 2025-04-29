@@ -2,7 +2,7 @@ import Story from "@/components/item";
 
 export default async function Home() {
   const topStories = await fetch(
-    "https://hacker-news.firebaseio.com/v0/topstories.json"
+    "https://hacker-news.firebaseio.com/v0/beststories.json"
   ).then((res) => res.json());
   const page = 1;
   return (
