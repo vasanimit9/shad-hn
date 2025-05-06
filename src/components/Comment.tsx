@@ -83,7 +83,6 @@ export default function Comment({ id, level = 0 }: ICommentProps) {
       <div
         style={{ paddingLeft: `${level * 16}px` }}
         className={[
-          "text-sm",
           "prose",
           "prose-neutral",
           "dark:prose-invert",
