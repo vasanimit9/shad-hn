@@ -21,7 +21,10 @@ export default async function Story(props: any) {
   ).then((res) => res.json());
 
   return (
-    <div className="px-3 py-2.5 flex flex-col items-center w-full overflow-y-auto overflow-x-hidden">
+    <div
+      className="px-3 py-2.5 flex flex-col items-center w-full overflow-y-auto overflow-x-hidden"
+      style={{ fontFamily: "Geist" }}
+    >
       <Card className="max-w-screen-md w-full mb-4">
         <CardHeader>
           <CardTitle>{storyData?.title}</CardTitle>
@@ -41,24 +44,26 @@ export default async function Story(props: any) {
             </a>
           </CardDescription>
         </CardHeader>
-        <CardContent className="markdown-content">
-          <style
-            dangerouslySetInnerHTML={{
-              __html: `
+        {!!storyData?.text && (
+          <CardContent className="markdown-content">
+            <style
+              dangerouslySetInnerHTML={{
+                __html: `
             .markdown-content p {
               margin: 8px 0;  
             }
             `,
-            }}
-          />
-          <span
-            dangerouslySetInnerHTML={{
-              __html: storyData?.text || '',
-            }}
-          />
-        </CardContent>
+              }}
+            />
+            <span
+              dangerouslySetInnerHTML={{
+                __html: storyData?.text || "",
+              }}
+            />
+          </CardContent>
+        )}
       </Card>
-      {storyData?.kids.map((kid: number) => (
+      {storyData?.kids?.map((kid: number) => (
         <Comment id={kid} key={kid} />
       ))}
     </div>

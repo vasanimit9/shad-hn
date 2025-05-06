@@ -10,6 +10,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "./ui/sidebar";
 
 const items = [
@@ -30,7 +31,10 @@ const items = [
   },
 ];
 
+
+
 export default function AppSidebar() {
+  const sidebar = useSidebar();
   return (
     <Sidebar collapsible="offcanvas" className="fixed">
       <SidebarHeader />
@@ -38,16 +42,21 @@ export default function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-            {items.map((item) => (
-              <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton asChild>
-                  <Link href={item.url}>
-                    {item.icon}
-                    <span>{item.title}</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            ))}
+              {items.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <Link
+                      className="text-sm"
+                      style={{ fontFamily: "Geist" }}
+                      href={item.url}
+                      onClick={sidebar.toggleSidebar}
+                    >
+                      {item.icon}
+                      <span>{item.title}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

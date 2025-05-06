@@ -20,17 +20,25 @@ export default async function Story(props: IStoryProps) {
   }
 
   return (
-    <div className="flex flex-col items-center mx-auto max-w-screen-md w-full">
-      <Link
-        href={`/${storyData?.id}`}
-        className="flex flex-col w-full"
-      >
+    <div
+      className="flex flex-col items-center mx-auto max-w-screen-md w-full"
+      style={{ fontFamily: "Geist" }}
+    >
+      <Link href={`/${storyData?.id}`} className="flex flex-col w-full">
         <div className=" mb-1">{storyData?.title}</div>
-        <div className=" text-stone-500 mb-1" >{storyData?.url?.replace('http://', '').replace('https://', '').split('/')[0]}</div>
-        <div className="text-sm text-stone-400 mb-2 flex gap-3">
-          <span>🕰️ {dayjs((storyData?.time || 0) * 1000).fromNow()}</span>
-          <span>🔼 {storyData?.score}</span>
-          <span>💬 {storyData?.descendants}</span>
+        <div className=" text-stone-500 mb-1">
+          {
+            storyData?.url
+              ?.replace("http://", "")
+              .replace("https://", "")
+              .split("/")[0]
+          }
+        </div>
+        <div className="text-sm text-stone-400 mb-2 flex gap-3 md:max-w-[320px] h-5">
+          <span className="w-25 overflow-ellipsis overflow-hidden">👤 {storyData?.by}</span>
+          <span className="w-25">🕰️ {dayjs((storyData?.time || 0) * 1000).fromNow()}</span>
+          <span className="w-15">🔼 {storyData?.score}</span>
+          <span className="w-15">💬 {storyData?.descendants}</span>
         </div>
       </Link>
       <Separator className="p-0 m-0" />
