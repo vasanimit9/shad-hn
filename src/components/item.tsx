@@ -35,8 +35,8 @@ export default async function Story(props: IStoryProps) {
           }
         </div>
         <div className="text-sm text-stone-400 mb-2 flex gap-3 md:max-w-[320px] h-5">
-          {/* <span className="w-30 overflow-ellipsis overflow-hidden">👤 {storyData?.by}</span> */}
-          <span className="w-25">🕰️ {dayjs((storyData?.time || 0) * 1000).fromNow()}</span>
+          <span className="w-30 overflow-ellipsis overflow-hidden">👤 {storyData?.by}</span>
+          <span className="w-30">🕰️ {dayjs((storyData?.time || 0) * 1000).fromNow()}</span>
           <span className="w-15">🔼 {storyData?.score}</span>
           <span className="w-15">💬 {storyData?.descendants}</span>
         </div>
