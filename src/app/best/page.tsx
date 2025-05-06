@@ -1,3 +1,5 @@
+'use server';
+
 import Story from "@/components/item";
 
 export default async function Home() {
