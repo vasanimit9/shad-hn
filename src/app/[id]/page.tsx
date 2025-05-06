@@ -9,11 +9,21 @@ import {
 } from "@/components/ui/card";
 import Comment from "@/components/Comment";
 
+async function fetchItem(id: string) {
+  try {
+    return await fetch(
+      `https://hacker-news.firebaseio.com/v0/item/${id}.json`
+    ).then((res) => res.json());
+  } catch {
+    return {
+      data: 'Something went wrong'
+    }
+  }
+}
+
 export default async function Story(props: any) {
   const params = await props.params;
-  const storyData = await fetch(
-    `https://hacker-news.firebaseio.com/v0/item/${params.id}.json`
-  ).then((res) => res.json());
+  const storyData = await fetchItem(await params.id)
 
   return (
     <div className="px-3 py-2.5 flex flex-col items-center w-full overflow-y-auto overflow-x-hidden">
