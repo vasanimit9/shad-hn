@@ -2,20 +2,15 @@
 
 import Story from "@/components/item";
 
-async function getNewStories() {
-  try {
-    return await fetch(
-      "https://hacker-news.firebaseio.com/v0/newstories.json"
-    ).then((res) => res.json());
-  } catch {
-    return {
-      data: 'Something went wrong'
-    }
-  }
-}
-
 export default async function Home() {
-  const topStories = await getNewStories();
+  const topStories = await fetch(
+    "https://hacker-news.firebaseio.com/v0/newstories.json",
+    {
+      next: {
+        revalidate: 300,
+      },
+    }
+  ).then((res) => res.json());
   const page = 1;
   return (
     <div
