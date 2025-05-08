@@ -27,71 +27,56 @@ export default async function Story(props: any) {
   ).then((res) => res.json());
 
   return (
-    <Tabs defaultValue="comments" className="overflow-y-auto">
-      <div className="max-md:px-3 mx-auto w-full max-md:max-w-screen max-w-screen-md">
-        {!!storyData?.url && (
-          <TabsList className="grid grid-cols-2 my-3 w-full">
-            <TabsTrigger value="iframe">🌐 Webpage</TabsTrigger>
-            <TabsTrigger value="comments">💬 Replies</TabsTrigger>
-          </TabsList>
-        )}
-      </div>
-      <TabsContent value="iframe">
-        <iframe src={storyData?.url} className="px-3 py-2.5 flex flex-col items-center w-full overflow-y-auto overflow-x-hidden min-h-[500px]" />
-      </TabsContent>
-      <TabsContent value="comments" className="overflow-y-auto">
-        <div
-          className="px-3 py-2.5 flex flex-col items-center w-full overflow-y-auto overflow-x-hidden"
-          style={{ fontFamily: "Geist" }}
-        >
-          <Card className="max-w-screen-md w-full mb-4">
-            <CardHeader>
-              <CardTitle>{storyData?.title}</CardTitle>
-              <CardDescription className="flex gap-2">
-                <div>👤 {storyData?.by}</div>
-                <a
-                  href={storyData?.url}
-                  className="underline text-gray-500 text-sm"
-                  target="_blank"
-                >
-                  {
-                    storyData?.url
-                      ?.replace("http://", "")
-                      .replace("https://", "")
-                      .split("/")[0]
-                  }
-                </a>
-              </CardDescription>
-            </CardHeader>
-            {!!storyData?.text && (
-              <CardContent className="markdown-content">
-                <style
-                  dangerouslySetInnerHTML={{
-                    __html: `
+    <div
+      className="px-3 py-2.5 flex flex-col items-center w-full overflow-y-auto overflow-x-hidden"
+      style={{ fontFamily: "Geist" }}
+    >
+      <Card className="max-w-screen-md w-full mb-4">
+        <CardHeader>
+          <CardTitle>{storyData?.title}</CardTitle>
+          <CardDescription className="flex gap-2">
+            <div>👤 {storyData?.by}</div>
+            <a
+              href={storyData?.url}
+              className="underline text-gray-500 text-sm"
+              target="_blank"
+            >
+              {
+                storyData?.url
+                  ?.replace("http://", "")
+                  .replace("https://", "")
+                  .split("/")[0]
+              }
+            </a>
+          </CardDescription>
+        </CardHeader>
+        {!!storyData?.text && (
+          <CardContent className="markdown-content">
+            <style
+              dangerouslySetInnerHTML={{
+                __html: `
             .markdown-content p {
               margin: 8px 0;  
             }
             `,
-                  }}
-                />
-                <span
-                  dangerouslySetInnerHTML={{
-                    __html: storyData?.text || "",
-                  }}
-                />
-              </CardContent>
-            )}
-          </Card>
-          {storyData?.kids?.map((kid: number) => (
-            <Comment id={kid} key={kid} />
-          ))}
-          {!storyData?.kids?.length && (
-            <div className="h-64 w-full flex justify-center items-center">
-              No comments yet
-            </div>
-          )}
+              }}
+            />
+            <span
+              dangerouslySetInnerHTML={{
+                __html: storyData?.text || "",
+              }}
+            />
+          </CardContent>
+        )}
+      </Card>
+      {storyData?.kids?.map((kid: number) => (
+        <Comment id={kid} key={kid} />
+      ))}
+      {!storyData?.kids?.length && (
+        <div className="h-64 w-full flex justify-center items-center">
+          No comments yet
         </div>
-      </TabsContent>
-    </Tabs>
+      )}
+    </div>
   );
 }

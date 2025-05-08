@@ -1,17 +1,28 @@
-'use server';
+"use client";
 
 import Story from "@/components/item";
+import { useEffect, useState } from "react";
 
-export default async function Home() {
-  const topStories = await fetch(
-    "https://hacker-news.firebaseio.com/v0/beststories.json",
-    {
-      next: {
-        revalidate: 300,
-      },
-    }
-  ).then((res) => res.json());
+export default function Home() {
+  const [topStories, setStories] = useState<any>(null);
   const page = 1;
+
+  useEffect(() => {
+    async function fetchStories() {
+      const stories = await fetch(
+        "https://hacker-news.firebaseio.com/v0/beststories.json"
+      ).then((res) => res.json());
+      setStories(stories);
+    }
+    fetchStories();
+  }, []);
+
+  if(!topStories) {
+    return <></>
+  }
+
+  console.log({topStories})
+
   return (
     <div
       className={["flex flex-col gap-2.5 p-3 overflow-y-auto"].join(" ")}

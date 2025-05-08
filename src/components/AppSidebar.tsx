@@ -13,6 +13,9 @@ import {
   SidebarTrigger,
   useSidebar,
 } from "./ui/sidebar";
+import { usePathname } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
+import { Button } from "./ui/button";
 
 const items = [
   {
@@ -34,6 +37,25 @@ const items = [
 
 export default function AppSidebar() {
   const sidebar = useSidebar();
+  const pathname = usePathname();
+
+  const [installPrompt, setInstallPrompt] = useState<any>();
+
+  useEffect(() => {
+    window.addEventListener('beforeinstallprompt', (event) => {
+      event.preventDefault();
+      setInstallPrompt(event);
+    })
+  }, []);
+
+  const onInstallClicked = useCallback(async () => {
+    if(!installPrompt) {
+      return;
+    }
+    const result = await installPrompt.prompt();
+    setInstallPrompt(null);
+  }, [installPrompt]);
+
   return (
     <Sidebar collapsible="offcanvas" className="fixed">
       <SidebarHeader className="p-0">
@@ -52,12 +74,12 @@ export default function AppSidebar() {
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton asChild isActive={item.url === pathname}>
                     <Link
                       className="text-inherit"
                       style={{ fontFamily: "Geist", fontSize: "16px" }}
                       href={item.url}
-                      onClick={sidebar.toggleSidebar}
+                      onClick={sidebar.isMobile ? sidebar.toggleSidebar : undefined}
                     >
                       {item.icon}
                       <span>{item.title}</span>
@@ -69,7 +91,9 @@ export default function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter />
+      {installPrompt && <SidebarFooter className="p-3 flex">
+        <Button onClick={onInstallClicked}>Install</Button>
+      </SidebarFooter>}
     </Sidebar>
   );
 }
