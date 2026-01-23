@@ -52,15 +52,6 @@ export default async function Story(props: any) {
         </CardHeader>
         {!!storyData?.text && (
           <CardContent className="markdown-content">
-            <style
-              dangerouslySetInnerHTML={{
-                __html: `
-            .markdown-content p {
-              margin: 8px 0;  
-            }
-            `,
-              }}
-            />
             <span
               dangerouslySetInnerHTML={{
                 __html: storyData?.text || "",

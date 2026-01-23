@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Shad HN",
-  description: "",
+  description: "A modern Hacker News reader built with Next.js, shadcn/ui, and Tailwind CSS. Browse top stories, best stories, and newest posts from Hacker News.",
 };
 
 export default function RootLayout({
@@ -31,13 +31,11 @@ export default function RootLayout({
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
           <AppSidebar />
-          <div className="flex flex-col flex-1 bg-inherit overflow-y-hidden h-screen">
-            <div className="flex text-xl border-b-2 top-0 left-0 w-full bg-inherit">
-              <div className="flex max-w-screen-md p-3 md:px-0 w-full md:mx-auto">
-                <div className="border border-gray-300 rounded mr-2">
-                  <SidebarTrigger />
-                </div>
-                ShadHN
+          <div className="flex flex-col flex-1 bg-inherit overflow-hidden h-screen">
+            <div className="flex text-xl border-b top-0 left-0 w-full bg-inherit min-h-[60px]">
+              <div className="flex max-w-screen-md p-4 md:px-0 w-full md:mx-auto items-center gap-3">
+                <SidebarTrigger className="flex-shrink-0" />
+                <span className="font-semibold">ShadHN</span>
               </div>
             </div>
             {children}

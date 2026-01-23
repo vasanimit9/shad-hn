@@ -5,6 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import classNames from "classnames";
 import { Separator } from "./ui/separator";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+
+dayjs.extend(relativeTime);
 
 interface ICommentProps {
   id: number;
@@ -45,7 +49,7 @@ export default function Comment({ id, level = 0 }: ICommentProps) {
 
   if (loading) {
     return (
-      <div className={classNames(`pl-${Math.min(level, 6) * 4}`, "py-2")}>
+      <div className="py-2" style={{ paddingLeft: `${Math.min(level, 6) * 16}px` }}>
         <Skeleton className="h-20 w-full rounded-md" />
       </div>
     );
@@ -54,10 +58,8 @@ export default function Comment({ id, level = 0 }: ICommentProps) {
   if (!commentData || commentData.deleted || commentData.dead) {
     return (
       <div
-        className={classNames(
-          `pl-${Math.min(level, 6) * 4}`,
-          "py-2 text-muted-foreground italic text-sm"
-        )}
+        className="py-2 text-muted-foreground italic text-sm"
+        style={{ paddingLeft: `${Math.min(level, 6) * 16}px` }}
       >
         [comment unavailable]
       </div>
@@ -77,7 +79,9 @@ export default function Comment({ id, level = 0 }: ICommentProps) {
         className="text-xs text-muted-foreground mb-1 flex justify-between px-2"
       >
         <span>{commentData.by}</span>
-        <span>{new Date(commentData.time * 1000).toLocaleTimeString()}</span>
+        <span title={new Date(commentData.time * 1000).toLocaleString()}>
+          {dayjs(commentData.time * 1000).fromNow()}
+        </span>
       </div>
 
       <div
