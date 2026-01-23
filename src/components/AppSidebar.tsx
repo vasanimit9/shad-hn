@@ -61,8 +61,8 @@ export default function AppSidebar() {
 
   return (
     <Sidebar collapsible="offcanvas" className="fixed">
-      <SidebarHeader className="p-4 border-b">
-        <h2 className="text-lg font-semibold">Navigation</h2>
+      <SidebarHeader className="p-4 border-b flex items-center min-h-[60px]">
+        <h2 className="text-xl font-semibold">ShadHN</h2>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>

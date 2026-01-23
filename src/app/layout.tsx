@@ -32,11 +32,9 @@ export default function RootLayout({
         >
           <AppSidebar />
           <div className="flex flex-col flex-1 bg-inherit overflow-hidden h-screen">
-            <div className="flex text-xl border-b-2 top-0 left-0 w-full bg-inherit">
-              <div className="flex max-w-screen-md p-3 md:px-0 w-full md:mx-auto items-center">
-                <div className="border border-gray-300 rounded mr-2 min-w-[44px] min-h-[44px] flex items-center justify-center">
-                  <SidebarTrigger className="h-full w-full" />
-                </div>
+            <div className="flex text-xl border-b top-0 left-0 w-full bg-inherit min-h-[60px]">
+              <div className="flex max-w-screen-md p-4 md:px-0 w-full md:mx-auto items-center gap-3">
+                <SidebarTrigger className="flex-shrink-0" />
                 <span className="font-semibold">ShadHN</span>
               </div>
             </div>
