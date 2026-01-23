@@ -22,16 +22,19 @@ const items = [
     title: "Top Stories",
     url: "/",
     icon: "🔝",
+    ariaLabel: "Top Stories",
   },
   {
     title: "Best Stories",
     url: "/best",
     icon: "📈",
+    ariaLabel: "Best Stories",
   },
   {
     title: "Newest Stories",
     url: "/newest",
     icon: "🆕",
+    ariaLabel: "Newest Stories",
   },
 ];
 
@@ -58,15 +61,8 @@ export default function AppSidebar() {
 
   return (
     <Sidebar collapsible="offcanvas" className="fixed">
-      <SidebarHeader className="p-0">
-        <div className="flex text-xl border-b-2 top-0 left-0 w-full bg-inherit md:hidden">
-          <div className="flex max-w-screen-md p-3 md:px-0 w-full md:mx-auto">
-            <div className="border border-gray-300 rounded mr-2">
-              <SidebarTrigger />
-            </div>
-            ShadHN
-          </div>
-        </div>
+      <SidebarHeader className="p-4 border-b">
+        <h2 className="text-lg font-semibold">Navigation</h2>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
@@ -80,8 +76,9 @@ export default function AppSidebar() {
                       style={{ fontFamily: "Geist", fontSize: "16px" }}
                       href={item.url}
                       onClick={sidebar.isMobile ? sidebar.toggleSidebar : undefined}
+                      aria-label={item.ariaLabel}
                     >
-                      {item.icon}
+                      <span aria-hidden="true">{item.icon}</span>
                       <span>{item.title}</span>
                     </Link>
                   </SidebarMenuButton>

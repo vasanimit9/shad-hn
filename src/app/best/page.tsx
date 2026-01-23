@@ -2,35 +2,103 @@
 
 import Story from "@/components/item";
 import { useEffect, useState } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
   const [topStories, setStories] = useState<any>(null);
-  const page = 1;
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     async function fetchStories() {
-      const stories = await fetch(
-        "https://hacker-news.firebaseio.com/v0/beststories.json"
-      ).then((res) => res.json());
-      setStories(stories);
+      try {
+        setLoading(true);
+        setError(null);
+        const stories = await fetch(
+          "https://hacker-news.firebaseio.com/v0/beststories.json"
+        ).then((res) => {
+          if (!res.ok) throw new Error("Failed to fetch stories");
+          return res.json();
+        });
+        setStories(stories);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Failed to load stories");
+      } finally {
+        setLoading(false);
+      }
     }
     fetchStories();
   }, []);
 
-  if(!topStories) {
-    return <></>
+  const totalPages = topStories ? Math.ceil(topStories.length / 30) : 0;
+  const currentStories = topStories?.slice((page - 1) * 30, page * 30) || [];
+
+  if (loading) {
+    return (
+      <div className="flex flex-col gap-2.5 p-3 overflow-y-auto" style={{ fontFamily: "Geist" }}>
+        {Array.from({ length: 10 }).map((_, i) => (
+          <div key={i} className="flex flex-col items-center mx-auto max-w-screen-md w-full">
+            <div className="flex flex-col w-full gap-2">
+              <Skeleton className="h-6 w-3/4" />
+              <Skeleton className="h-4 w-32" />
+              <Skeleton className="h-4 w-48" />
+              <div className="flex gap-2">
+                <Skeleton className="h-8 w-20" />
+                <Skeleton className="h-8 w-20" />
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    );
   }
 
-  console.log({topStories})
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center h-full p-8" style={{ fontFamily: "Geist" }}>
+        <div className="text-center max-w-md">
+          <h2 className="text-xl font-semibold mb-2">Failed to Load Stories</h2>
+          <p className="text-muted-foreground mb-4">{error}</p>
+          <Button onClick={() => window.location.reload()}>Retry</Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div
-      className={["flex flex-col gap-2.5 p-3 overflow-y-auto"].join(" ")}
-      style={{ fontFamily: "Geist" }}
-    >
-      {topStories.slice((page - 1) * 30, page * 30).map((id: number) => (
-        <Story key={id} id={id} />
-      ))}
+    <div className="flex flex-col h-full">
+      <div
+        className={["flex flex-col gap-2.5 p-3 overflow-y-auto flex-1"].join(" ")}
+        style={{ fontFamily: "Geist" }}
+      >
+        {currentStories.map((id: number) => (
+          <Story key={id} id={id} />
+        ))}
+      </div>
+
+      {totalPages > 1 && (
+        <div className="border-t p-4 flex justify-center items-center gap-4" style={{ fontFamily: "Geist" }}>
+          <Button
+            variant="outline"
+            onClick={() => setPage((p) => Math.max(1, p - 1))}
+            disabled={page === 1}
+          >
+            Previous
+          </Button>
+          <span className="text-sm text-muted-foreground">
+            Page {page} of {totalPages}
+          </span>
+          <Button
+            variant="outline"
+            onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+            disabled={page === totalPages}
+          >
+            Next
+          </Button>
+        </div>
+      )}
     </div>
   );
 }
