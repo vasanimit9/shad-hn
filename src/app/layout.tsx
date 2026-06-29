@@ -63,13 +63,15 @@ export default async function RootLayout({
     );
   }
 
-  // Classic (shadcn) theme: unchanged, still server-rendered.
+  // Classic (shadcn) theme: still server-rendered. The SidebarProvider must live
+  // inside <body> (wrapping the sidebar + content) so its flex layout can reclaim
+  // the sidebar's space when collapsed — and so the document stays valid HTML.
   return (
-    <SidebarProvider>
-      <html lang="en">
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
+    <html lang="en">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <SidebarProvider>
           <AppSidebar />
           <div className="flex flex-col flex-1 bg-inherit overflow-hidden h-screen">
             <div className="flex text-xl border-b top-0 left-0 w-full bg-inherit min-h-[60px]">
@@ -83,9 +85,9 @@ export default async function RootLayout({
             </div>
             {children}
           </div>
-          <script dangerouslySetInnerHTML={{ __html: serviceWorkerScript }} />
-        </body>
-      </html>
-    </SidebarProvider>
+        </SidebarProvider>
+        <script dangerouslySetInnerHTML={{ __html: serviceWorkerScript }} />
+      </body>
+    </html>
   );
 }

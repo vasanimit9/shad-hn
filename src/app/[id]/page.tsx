@@ -17,14 +17,39 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default async function Story(props: any) {
   const params = await props.params;
-  const storyData = await fetch(
-    `https://hacker-news.firebaseio.com/v0/item/${params.id}.json`,
-    {
-      next: {
-        revalidate: 300,
-      },
-    }
-  ).then((res) => res.json());
+
+  let storyData: any = null;
+  let error = false;
+  try {
+    const res = await fetch(
+      `https://hacker-news.firebaseio.com/v0/item/${params.id}.json`,
+      {
+        next: {
+          revalidate: 300,
+        },
+      }
+    );
+    if (!res.ok) throw new Error(`Failed to fetch story ${params.id}`);
+    storyData = await res.json();
+  } catch {
+    error = true;
+  }
+
+  if (error || !storyData) {
+    return (
+      <div
+        className="flex flex-col items-center justify-center h-full p-8"
+        style={{ fontFamily: "Geist" }}
+      >
+        <div className="text-center max-w-md">
+          <h2 className="text-xl font-semibold mb-2">Failed to Load Story</h2>
+          <p className="text-muted-foreground">
+            This discussion couldn&apos;t be loaded. Please try again later.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div

@@ -7,6 +7,7 @@ import Link from "next/link";
 import { Button } from "./ui/button";
 import { Skeleton } from "./ui/skeleton";
 import { useEffect, useState } from "react";
+import { ArrowUp, MessageSquare, Clock } from "lucide-react";
 
 dayjs.extend(relativeTime);
 
@@ -75,33 +76,36 @@ export default function Story(props: IStoryProps) {
     >
       <div className="flex flex-col w-full">
         <div className="text-lg">{storyData?.title}</div>
-        {/* <div className=" text-stone-500 mb-1 underline">
-          {
-            storyData?.url
-              ?.replace("http://", "")
-              .replace("https://", "")
-              .split("/")[0]
-          }
-        </div> */}
         <div className="text-stone-400 mb-2 flex gap-1 md:max-w-[320px] h-5">
           <span className="flex-1 overflow-ellipsis overflow-hidden line-clamp-1">
-            {storyData?.by}
+            by {storyData?.by}
           </span>
         </div>
         <div className="text-sm text-stone-400 mb-2 flex gap-3 md:max-w-[320px] h-5">
-          <span className="flex-1" aria-label="Score">🔼 {storyData?.score}</span>
-          <span className="flex-1" aria-label="Comments">💬 {storyData?.descendants || 0}</span>
-          <span className="flex-4" aria-label="Time posted">
-            🕰️ {dayjs((storyData?.time || 0) * 1000).fromNow()}
+          <span className="flex-1 flex items-center gap-1" aria-label="Score">
+            <ArrowUp className="size-3.5" aria-hidden="true" /> {storyData?.score}
+          </span>
+          <span className="flex-1 flex items-center gap-1" aria-label="Comments">
+            <MessageSquare className="size-3.5" aria-hidden="true" />{" "}
+            {storyData?.descendants || 0}
+          </span>
+          <span className="flex-4 flex items-center gap-1" aria-label="Time posted">
+            <Clock className="size-3.5" aria-hidden="true" />{" "}
+            {dayjs((storyData?.time || 0) * 1000).fromNow()}
           </span>
         </div>
         <div className="flex mb-2 gap-2">
           {storyData?.url && (
-            <Link className="max-md:flex-1 flex" href={storyData?.url}>
+            <a
+              className="max-md:flex-1 flex"
+              href={storyData?.url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <Button variant="default" className="flex-1" size="sm">
                 Read
               </Button>
-            </Link>
+            </a>
           )}
           <Link className="max-md:flex-1 flex" href={`/${storyData?.id}`}>
             <Button variant="outline" className="flex-1" size="sm">
