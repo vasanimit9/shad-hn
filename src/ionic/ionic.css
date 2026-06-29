@@ -1,0 +1,178 @@
+/* App-specific styling for the Ionic iOS theme. Ionic component internals live in
+   shadow DOM and are untouched; these rules only target our slotted content. */
+
+/* ---- Story list item ---- */
+.story-label {
+  padding: 4px 0;
+}
+
+.story-title {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.35;
+  margin: 0 0 4px;
+}
+
+.story-domain {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  color: var(--ion-color-primary);
+  margin-bottom: 4px;
+}
+
+.story-open {
+  display: inline-flex;
+  align-items: center;
+  background: none;
+  border: none;
+  padding: 2px 4px;
+  margin: 0;
+  color: var(--ion-color-primary);
+  cursor: pointer;
+}
+
+.story-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+}
+
+.story-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.story-meta ion-icon {
+  font-size: 14px;
+}
+
+.story-rank {
+  font-weight: 600;
+  color: var(--ion-color-medium);
+}
+
+.story-author {
+  color: var(--ion-color-medium);
+}
+
+/* ---- Detail page ---- */
+.detail-subtitle {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.detail-subtitle a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--ion-color-primary);
+  text-decoration: none;
+}
+
+.detail-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+.detail-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.detail-text {
+  font-size: 15px;
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+.detail-text a {
+  color: var(--ion-color-primary);
+  word-break: break-all;
+}
+
+/* ---- Comments ---- */
+.comments {
+  padding: 0 12px 24px;
+}
+
+.comment {
+  padding: 10px 0 10px 12px;
+  border-left: 2px solid var(--ion-color-step-150, rgba(0, 0, 0, 0.08));
+  margin-top: 8px;
+}
+
+.comment.level-0 {
+  border-left-color: transparent;
+  padding-left: 0;
+}
+
+.comment-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--ion-color-medium);
+  margin-bottom: 4px;
+}
+
+.comment-author {
+  font-weight: 600;
+}
+
+.comment-text {
+  font-size: 15px;
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+.comment-text a {
+  color: var(--ion-color-primary);
+  word-break: break-all;
+}
+
+.comment-text p {
+  margin: 8px 0;
+}
+
+.comment-toggle {
+  --padding-start: 0;
+  --padding-end: 8px;
+  margin: 2px 0 0;
+  font-size: 13px;
+  text-transform: none;
+}
+
+.comment-unavailable {
+  font-style: italic;
+  font-size: 13px;
+  color: var(--ion-color-medium);
+}
+
+/* ---- Misc ---- */
+.feed-message {
+  padding: 48px 16px;
+  text-align: center;
+}
+
+.theme-switch-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 6px;
+  margin: 0;
+  color: var(--ion-color-primary);
+  cursor: pointer;
+  font-size: 22px;
+}
