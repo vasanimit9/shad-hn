@@ -97,11 +97,16 @@ export default function Story(props: IStoryProps) {
         </div>
         <div className="flex mb-2 gap-2">
           {storyData?.url && (
-            <Link className="max-md:flex-1 flex" href={storyData?.url}>
+            <a
+              className="max-md:flex-1 flex"
+              href={storyData?.url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <Button variant="default" className="flex-1" size="sm">
                 Read
               </Button>
-            </Link>
+            </a>
           )}
           <Link className="max-md:flex-1 flex" href={`/${storyData?.id}`}>
             <Button variant="outline" className="flex-1" size="sm">

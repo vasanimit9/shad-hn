@@ -1,38 +1,52 @@
-let CACHE_NAME = "shadhn-v1";
+const CACHE_NAME = "shadhn-v1";
 
-let URLS_TO_CACHE = ["/", "/best", "/newest"];
+const URLS_TO_CACHE = ["/", "/best", "/newest"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(URLS_TO_CACHE);
+      // addAll rejects (aborting install) if any single request fails, so add
+      // them individually and tolerate misses.
+      return Promise.all(
+        URLS_TO_CACHE.map((url) => cache.add(url).catch(() => undefined))
+      );
     })
   );
 });
 
+// Only same-origin GET assets (the app shell) are cached. Data requests to the
+// Hacker News API — and any other cross-origin request — always go straight to
+// the network so the feed and comments are never served stale.
+function isCacheable(request) {
+  if (request.method !== "GET") return false;
+  const url = new URL(request.url);
+  return url.origin === self.location.origin;
+}
+
 self.addEventListener("fetch", (event) => {
-  event.respondWith(
-    caches.match(event.request).then((response) => {
-      if (!event.request.url.includes("api") && response) {
-        return response;
-      }
-      return fetch(event.request);
-    })
-  );
-  if (event.request.url.includes("api")) {
-    return;
+  if (!isCacheable(event.request)) {
+    return; // let the browser handle it normally (network)
   }
 
-  caches
-    .open(CACHE_NAME)
-    .then(async (cache) => {
-      await cache.add(event.request.url);
+  event.respondWith(
+    caches.match(event.request).then((cached) => {
+      if (cached) return cached;
+      return fetch(event.request).then((response) => {
+        // Cache a clone of successful, same-origin ("basic") responses.
+        if (response.ok && response.type === "basic") {
+          const copy = response.clone();
+          caches
+            .open(CACHE_NAME)
+            .then((cache) => cache.put(event.request, copy));
+        }
+        return response;
+      });
     })
-    .catch();
+  );
 });
 
 self.addEventListener("activate", (event) => {
-  let cacheWhiteList = [CACHE_NAME];
+  const cacheWhiteList = [CACHE_NAME];
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
