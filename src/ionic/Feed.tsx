@@ -85,6 +85,7 @@ export default function Feed({ feed, title }: FeedProps) {
               title="Switch to classic (shadcn) theme"
             >
               <IonIcon icon={phonePortraitOutline} />
+              <span className="theme-switch-label">Classic</span>
             </button>
           </IonButtons>
         </IonToolbar>
